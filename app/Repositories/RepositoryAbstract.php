@@ -55,13 +55,10 @@ abstract class RepositoryAbstract
         $model = $this->model
             ->where('id', $entityId)
             ->first()
-            ->fill($data);
+            ->fill($data)
+            ->saveOrFail();
 
-        if (!$model->save()) {
-            return;
-        }
-
-        return $model;
+        return $this->findById($entityId);
     }
 
     /**
