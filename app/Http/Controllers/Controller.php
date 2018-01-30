@@ -16,12 +16,26 @@ class Controller extends BaseController
     protected $transformer;
 
     /**
-     * Show
+     * Index
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function index()
     {
         $data = $this->service->find();
+
+        $response = $this->response->item($data, $this->transformer);
+
+        return $response;
+    }
+
+    /**
+     * Show
+     * @param int $companyId Id da entidade
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $entityId)
+    {
+        $data = $this->service->findById($entityId);
 
         $response = $this->response->item($data, $this->transformer);
 
@@ -45,12 +59,11 @@ class Controller extends BaseController
     /**
      * Update
      * @param Request $request
+     * @param int $companyId Id da entidade
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, int $entityId)
     {
-        $entityId = $request->user()->id;
-
         $data = $this->service->update($entityId, $request->all());
 
         $response = $this->response->item($data, $this->transformer);
@@ -61,13 +74,12 @@ class Controller extends BaseController
     /**
      * Destroy
      * @param Request $request
+     * @param int $companyId Id da entidade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, int $entityId)
     {
-        $entityId = $request->user()->id;
-
-        $this->service->delete($entityId);
+        $this->service->delete($entityId, $request->all());
 
         $response = $this->response->noContent();
 

@@ -29,7 +29,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password',
+        'password', 'deleted_at',
     ];
 
     /**
@@ -50,5 +50,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function setPasswordAttribute($password)
     {
         return $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Cria relacionamento com a model Post
+     *
+     * @return mixed
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id');
     }
 }

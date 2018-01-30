@@ -53,9 +53,10 @@ abstract class ServiceAbstract
     /**
      * Deleta o registro
      * @param int $entityId
+     * @param array $params
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function delete(int $entityId)
+    public function delete(int $entityId, array $params = [])
     {
         return $this->repository->delete($entityId);
     }

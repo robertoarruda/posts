@@ -27,6 +27,8 @@ $api->version('v1', function ($api) {
 
     $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
         $api->post('user', 'UserController@store');
+        $api->get('posts', 'PostController@index');
+        $api->get('post/{id}', 'PostController@show');
     });
 
     $api->group(
@@ -37,6 +39,10 @@ $api->version('v1', function ($api) {
         function ($api) {
             $api->put('user', 'UserController@update');
             $api->delete('user', 'UserController@destroy');
+
+            $api->post('post', 'PostController@store');
+            $api->put('post/{id}', 'PostController@update');
+            $api->delete('post/{id}', 'PostController@destroy');
         }
     );
 });
