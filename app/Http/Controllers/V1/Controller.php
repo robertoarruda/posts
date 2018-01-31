@@ -20,9 +20,10 @@ class Controller extends BaseController
 
     /**
      * Index
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = $this->service->find();
 
@@ -33,10 +34,11 @@ class Controller extends BaseController
 
     /**
      * Show
+     * @param Request $request
      * @param int $companyId Id da entidade
      * @return \Illuminate\Http\Response
      */
-    public function show(int $entityId)
+    public function show(Request $request, int $entityId)
     {
         $data = $this->service->findById($entityId);
 

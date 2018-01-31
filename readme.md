@@ -1,5 +1,11 @@
 # SBTEST
 
+
+## Pré-requisitos
+- docker
+- docker-compose
+
+
 ## Instalação
 
 `git clone git@github.com:robertoarruda/sbtest.git`
@@ -82,12 +88,38 @@ curl --request GET \
 * `POST http://localhost/api/user`
 * `GET http://localhost/api/posts`
 * `GET http://localhost/api/post/<id>`
-* `POST http://localhost/api/posts`
+* `POST http://localhost/api/post`
 
 
 ## APIs privadas
+* `GET http://localhost/api/user`
 * `PUT http://localhost/api/user`
 * `DELETE http://localhost/api/user`
 * `POST http://localhost/api/post`
 * `PUT http://localhost/api/post/<id>`
 * `DELETE http://localhost/api/post/<id>`
+
+
+## API V2
+Melhoria no retorno do usuário do post.
+Agora, o retorno não é somente o id do usuário `user_id`, implementamos o retorno dos dados do usuário no campo `user`.
+
+
+## APIs V1
+* `POST http://localhost/oauth/token`
+* `GET http://localhost/api/user`
+* `POST http://localhost/api/user`
+* `PUT http://localhost/api/user`
+* `DELETE http://localhost/api/user`
+* `GET http://localhost/api/posts`
+* `GET http://localhost/api/post/<id>`
+* `POST http://localhost/api/post`
+* `PUT http://localhost/api/post/<id>`
+* `DELETE http://localhost/api/post/<id>`
+
+
+## APIs V2
+* `GET http://localhost/api/posts`
+* `GET http://localhost/api/post/<id>`
+* `POST http://localhost/api/post`
+* `PUT http://localhost/api/post/<id>`
