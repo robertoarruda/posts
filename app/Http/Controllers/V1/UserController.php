@@ -15,6 +15,19 @@ class UserController extends Controller
     }
 
     /**
+     * Show
+     * @param Request $request
+     * @param int $companyId Id da entidade
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, int $entityId = 0)
+    {
+        $entityId = $request->user()->id ?? null;
+
+        return parent::show($request, $entityId);
+    }
+
+    /**
      * Store
      * @param Request $request
      * @param int $companyId Id da entidade

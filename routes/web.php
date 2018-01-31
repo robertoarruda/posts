@@ -32,6 +32,7 @@ $api->version(['v1'], ['prefix' => 'api'], function ($api) {
         $api->get('post/{id}', 'PostController@show');
 
         $api->group(['middleware' => ['auth:api', 'cors']], function ($api) {
+            $api->get('user', 'UserController@show');
             $api->put('user', 'UserController@update');
             $api->delete('user', 'UserController@destroy');
 
