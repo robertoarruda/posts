@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Transformers\V1;
 
 use App\Post;
 use League\Fractal\TransformerAbstract;
@@ -14,7 +14,7 @@ class PostTransformer extends TransformerAbstract
     {
         $data = [
             'id' => $post->id ?? null,
-            'user' => $post->user ?? null,
+            'user_id' => $post->user_id ?? null,
             'post' => $post->post ?? null,
             'created_at' => $post->created_at ?? null,
             'updated_at' => $post->updated_at ?? null,

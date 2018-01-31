@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Services\PostService;
-use App\Transformers\PostTransformer;
+use App\Transformers\V1\PostTransformer;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -21,7 +21,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->merge(['user_id' => $request->user()->id ?? 0]);
+        $request->merge(['user_id' => $request->user()->id ?? null]);
+
+        $this->validateStore($request, [
+            'post' => 'required|max:140',
+            'user_id' => 'required',
+        ]);
 
         return parent::store($request);
     }
@@ -34,7 +39,12 @@ class PostController extends Controller
      */
     public function update(Request $request, int $entityId)
     {
-        $request->merge(['user_id' => $request->user()->id ?? 0]);
+        $request->merge(['user_id' => $request->user()->id ?? null]);
+
+        $this->validateUpdate($request, [
+            'post' => 'max:140',
+            'user_id' => 'required',
+        ]);
 
         return parent::update($request, $entityId);
     }
@@ -47,7 +57,7 @@ class PostController extends Controller
      */
     public function destroy(Request $request, int $entityId)
     {
-        $request->merge(['user_id' => $request->user()->id ?? 0]);
+        $request->merge(['user_id' => $request->user()->id ?? null]);
 
         return parent::destroy($request, $entityId);
     }

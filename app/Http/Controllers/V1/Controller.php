@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
+use Dingo\Api\Exception\StoreResourceFailedException;
+use Dingo\Api\Exception\UpdateResourceFailedException;
 use Dingo\Api\Routing\Helpers;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -23,7 +26,7 @@ class Controller extends BaseController
     {
         $data = $this->service->find();
 
-        $response = $this->response->item($data, $this->transformer);
+        $response = $this->response->collection($data, $this->transformer);
 
         return $response;
     }
@@ -66,7 +69,7 @@ class Controller extends BaseController
     {
         $data = $this->service->update($entityId, $request->all());
 
-        $response = $this->response->item($data, $this->transformer);
+        $response = $this->response->accepted('', $data);
 
         return $response;
     }
@@ -84,5 +87,43 @@ class Controller extends BaseController
         $response = $this->response->noContent();
 
         return $response;
+    }
+
+    /**
+     * validateStore
+     * @param Request $request
+     * @param array $rules
+     */
+    protected function validateStore(Request $request, array $rules)
+    {
+        return $this->validateRequest($request, $rules, StoreResourceFailedException::class);
+
+    }
+
+    /**
+     * validateUpdate
+     * @param Request $request
+     * @param array $rules
+     */
+    protected function validateUpdate(Request $request, array $rules)
+    {
+        return $this->validateRequest($request, $rules, UpdateResourceFailedException::class);
+
+    }
+
+    /**
+     * validateRequest
+     * @param Request $request
+     * @param array $rules
+     * @param string $exception
+     */
+    protected function validateRequest(Request $request, array $rules, string $exception)
+    {
+        try {
+            $this->validate($request, $rules);
+        } catch (Exception $e) {
+            throw new $exception('', $e->errors());
+        }
+
     }
 }
