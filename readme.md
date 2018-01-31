@@ -1,21 +1,93 @@
-# Lumen PHP Framework
+# SBTEST
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+## Instalação
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+`git clone git@github.com:robertoarruda/sbtest.git`
 
-## Official Documentation
+Entre no diretório do projeto `cd sbtest`
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+Levante o docker do projeto `docker-compose up -d`
 
-## Security Vulnerabilities
+Entre no container `docker exec -it php.docker bash`
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Execute o composer `composer install`
 
-## License
+Setar permissão no dir storage `chmod -R 777 storage`
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Copiar o .env `cp .env.example .env`
+
+Gerar a chave do projeto `php artisan key:generate`
+
+Execute o migrate `php artisan migrate`
+
+Rode os testes unitários `vendor/bin/phpunit`
+
+Instale o passport `php artisan passport:install`
+
+Copie o `Client secret` do `Passport grant client`
+
+Cadastre um usuário
+```
+curl --request POST \
+  --url http://localhost/api/user \
+  --header 'content-type: application/json' \
+  --data '{
+      "name": <nome>,
+      "email": <email>,
+      "password": <senha>
+}'
+```
+
+Resgate o access token
+```
+curl --request POST \
+  --url http://localhost/oauth/token \
+  --header 'content-type: application/json' \
+  --data '{
+	"grant_type": "password",
+      "client_id": 2,
+      "client_secret": <passport-grant-client-secret>,
+      "username": <usuario-email>,
+      "password": <usuario-senha>,
+      "scope": ""
+}'
+```
+
+Crie seu primeiro post com o seu novo usuário
+```
+curl --request POST \
+  --url http://localhost/api/post \
+  --header 'authorization: Bearer <access-token>' \
+  --header 'content-type: application/json' \
+  --data '{
+	    "post": <post>
+}'
+```
+
+Liste os post na V1
+```
+curl --request GET \
+  --url http://localhost/api/posts
+```
+
+Liste os post na V2
+```
+curl --request GET \
+  --url http://localhost/api/posts \
+  --header 'accept: application/x.sbtest.v2+json'
+```
+
+## APIs públicas
+* `POST http://localhost/oauth/token`
+* `POST http://localhost/api/user`
+* `GET http://localhost/api/posts`
+* `GET http://localhost/api/post/<id>`
+* `POST http://localhost/api/posts`
+
+
+## APIs privadas
+* `PUT http://localhost/api/user`
+* `DELETE http://localhost/api/user`
+* `POST http://localhost/api/post`
+* `PUT http://localhost/api/post/<id>`
+* `DELETE http://localhost/api/post/<id>`
