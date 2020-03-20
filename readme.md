@@ -1,4 +1,4 @@
-# SBTEST
+# POSTS
 
 
 ## Pré-requisitos
@@ -8,9 +8,9 @@
 
 ## Instalação
 
-`git clone git@github.com:robertoarruda/sbtest.git`
+`git clone git@github.com:robertoarruda/posts.git`
 
-Entre no diretório do projeto `cd sbtest`
+Entre no diretório do projeto `cd posts`
 
 Levante o docker do projeto `docker-compose up -d`
 
@@ -80,7 +80,7 @@ Liste os post na V2
 ```
 curl --request GET \
   --url http://localhost/api/posts \
-  --header 'accept: application/x.sbtest.v2+json'
+  --header 'accept: application/x.posts.v2+json'
 ```
 
 ## APIs públicas
